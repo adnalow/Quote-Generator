@@ -3,10 +3,29 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
+const loader = document.getElementById('loader');
 
+
+// Show Loading
+
+function showLoading() {
+    loader.hidden = false;
+    quoteContainer.hidden = true;
+}
+
+// Hide Loading for some time
+function hideLoading() {
+    setTimeout(() => {
+        if (!loader.hidden) {
+            loader.hidden = true;
+            quoteContainer.hidden = false;
+        }
+    }, 700); // 700 milliseconds
+}
 
 // Get Quote from API
 async function getQuote() {
+    showLoading();
     const apiUrl = 'https://type.fit/api/quotes';
     try {
         const response = await fetch(apiUrl);
@@ -32,6 +51,9 @@ async function getQuote() {
         }
 
         quoteText.innerText = quote.text;
+        //Stop Loader
+
+        hideLoading();
     } catch (error) {
         getQuote(); // Recursively retry if there's an error
     }
@@ -62,5 +84,6 @@ function filterOutWords(text, wordsToFilter) {
     return filteredWords.join(' ');
 }
 
-// Onload
+// run main func
+
 getQuote();
