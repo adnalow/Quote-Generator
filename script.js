@@ -13,10 +13,10 @@ async function getQuote() {
         const data = await response.json();
         const randomIndex = Math.floor(Math.random() * data.length);
         const quote = data[randomIndex];
-        console.log(quote);
+        quoteText.innerText = quote.text;
+        authorText.innerText = quote.author;
     } catch (error) {
         getQuote(); // Recursively retry if there's an error
-        console.log('Oops, no quote', error);
     }
 }
 
